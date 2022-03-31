@@ -11,10 +11,11 @@ const routes = [
   {
       path: "/",
       name: "admin",
-      // meta: {requiresAuth: true},
+    //   meta: {requiresAuth: true},
       component: importComponent("DashboardLayout"),
       //import component diatas ini jadi halaman yg diaksess pertama kali, tadinya DashboardLayout
       children: [
+          // MANAGER SITE
           {
               path: '/promo',
               name: 'Promo',
@@ -23,22 +24,54 @@ const routes = [
 
           },
           {
-              path: '/pesanan',
-              name: 'Pemesanan',
-              meta: {title: 'Pemesanan'},
-              component: importComponent("Normals/Pesanan"),
+              path: '/jadwal',
+              name: 'Jadwal',
+              meta: {title: 'Jadwal'},
+              component: importComponent("Manager/Jadwal"),
+          },
+          {
+              path: '/role',
+              name: 'Role',
+              meta: {title: 'Role'},
+              component: importComponent("Manager/Role"),
+          },
+          {
+              path: '/detailjdw',
+              name: 'Detail Jadwal',
+              meta: {title: 'Detail Jadwal'},
+              component: importComponent("Manager/DetailJdw"),
+          },
+
+          // ADMIN SITE
+          {
+              path: '/mitra',
+              name: 'Mitra',
+              meta: {title: 'Mitra'},
+              component: importComponent("Admin/Mitra"),
 
           },
           {
-              path: '/profile',
-              name: 'Profile',
-              meta: {title: 'Profile'},
-              component: importComponent("Normals/Profile"),
+              path: '/pegawai',
+              name: 'Pegawai',
+              meta: {title: 'Pegawai'},
+              component: importComponent("Admin/Pegawai"),
 
+          },
+          {
+              path: '/mobil',
+              name: 'Mobil',
+              meta: {title: 'Mobil'},
+              component: importComponent("Admin/Mobil"),
+          },
+          {
+              path: '/driver',
+              name: 'Driver',
+              meta: {title: 'Driver'},
+              component: importComponent("Admin/Driver"),
           },
 
 
-          //ADMIN PAGE
+          //CUSTOMER SERVICE PAGE
           {
               path: "/adminKurir",
               name: "Kurir",
@@ -56,6 +89,20 @@ const routes = [
   },
 
   //login
+  {
+      path: '/home',
+      name: 'home',
+      meta: {title: 'Home'},
+      component: importComponent('DashboardLayout'),
+      children: [
+          {
+              path: '/daftarCust',
+              name: 'Pendaftaran',
+              meta: {title: 'Pendaftaran'},
+              component: importComponent('Customer/Pendaftaran'),
+          },
+      ]
+  },
   {
       path: '/home',
       name: 'Home',

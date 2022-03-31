@@ -1,6 +1,6 @@
 <template>
     <v-main class="list">
-        <h3 class="text-h3 font-weight-medium mb-5 white--text">Promo</h3>
+        <h3 class="text-h3 font-weight-medium mb-5 white--text">Role</h3>
 
         <div style="width:940px;overflow-x:auto;">
             <v-card>
@@ -15,21 +15,10 @@
                     <v-spacer></v-spacer>
                     <v-btn color="purple" dark @click="dialog = true"> Tambah </v-btn>
                 </v-card-title>
-                <v-data-table :headers="headers" :items="Promos" :search="search">
+                <v-data-table :headers="headers" :items="Roles" :search="search">
                     <template v-slot:[`item.actions`]="{ item }">
-                        <td>
-                            <tr>
-                                <v-icon small color="green" class="mr-2" @click="editHandler(item)"> mdi-pencil </v-icon>
-                                <v-icon small color="red" @click="deleteHandler(item.idPromo)"> mdi-delete </v-icon>
-                            </tr>
-                            <tr>
-                                <v-btn x-small color="purple" dark @click="ubahStatus(item.idPromo)" style="margin:5px;"> Ubah Status </v-btn>
-                            </tr>
-                        </td>
-                    </template>
-                    <template v-slot:[`item.statusPrm`]="{ item }">
-                        <p v-if="item.statusPrm === 1" style="color:lightgreen">Aktif</p>
-                        <p v-else style="color:red">Tidak Aktif</p>
+                        <v-icon small color="green" class="mr-2" @click="editHandler(item)"> mdi-pencil </v-icon>
+                        <v-icon small color="red" @click="deleteHandler(item.idRole)"> mdi-delete </v-icon>
                     </template>
                 </v-data-table>
             </v-card>
@@ -38,28 +27,13 @@
         <v-dialog v-model="dialog" persistent max-width="600px">
             <v-card>
                 <v-card-title>
-                    <span class="headLine">{{ formTitle }} Promo</span>
+                    <span class="headLine">{{ formTitle }} Role</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
                         <v-text-field
-                            v-model="form.kodePrm"
-                            label="Kode Promo"
-                            required
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="form.jenisPrm"
-                            label="Jenis Promo"
-                            required
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="form.keteranganPrm"
-                            label="Keterangan"
-                            required
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="form.diskonPrm"
-                            label="Diskon"
+                            v-model="form.namaRole"
+                            label="Nama Role"
                             required
                         ></v-text-field>
                                                 
@@ -96,7 +70,7 @@
 
 <script>
 export default {
-    name: "MgrPromo",
+    name: "MgrRole",
     data() {
         return {
             inputType: 'Tambah',
@@ -111,27 +85,19 @@ export default {
             editedIndex: -1,
             headers: [
                 {
-                    text: "Kode Promo",
+                    text: "Nama Role",
                     align: "start",
                     sortable: true,
-                    value: "kodePrm",
+                    value: "namaRole",
                 },
-                { text: "Jenis", value: "jenisPrm", align: "start" },
-                { text: "Keterangan", value: "keteranganPrm", align: "start" },
-                { text: "Diskon", value: "diskonPrm", align: "center" },
-                { text: "Status", value: "statusPrm", align: "center" },
                
                 { text: "Actions", value: "actions", align: "center" },
             ],
 
-            Promo: new FormData,
-            Promos: [],
+            Role: new FormData,
+            Roles: [],
             form: {
-              kodePrm: null,
-              jenisPrm: null,
-              keteranganPrm: null,
-              diskonPrm: null,
-              statusPrm: null,
+              namaRole: null,
             },
 
             deleteId: null,
@@ -152,37 +118,21 @@ export default {
             }
         },
         readData(){
-            var url = this.$api + '/promo';
+            var url = this.$api + '/role';
             this.$http.get(url, {
                 // headers: {
                 //     'Authorization' : 'Bearer ' + localStorage.getItem('token')
                 // }
             }).then(response => {
-                this.Promos = response.data.data;
-            })
-        },
-        ubahStatus(statId){
-            var url = this.$api + '/promostat/'+ statId;
-            this.$http.get(url, {
-                // headers: {
-                //     'Authorization' : 'Bearer ' + localStorage.getItem('token')
-                // }
-            })
-            .then(response => {
-                response;
-                location.reload();
+                this.Roles = response.data.data;
             })
         },
         save(){
-            this.Promo.append('kodePrm', this.form.kodePrm);
-            this.Promo.append('jenisPrm', this.form.jenisPrm);
-            this.Promo.append('keteranganPrm', this.form.keteranganPrm);
-            this.Promo.append('diskonPrm', this.form.diskonPrm);
+            this.Role.append('namaRole', this.form.namaRole);
 
-
-            var url = this.$api + '/promo'
+            var url = this.$api + '/role'
             this.load = true;
-            this.$http.post(url, this.Promo, {
+            this.$http.post(url, this.Role, {
                 // headers: {
                 //     'Authorization' : 'Bearer ' + localStorage.getItem('token'),
                 // }
@@ -203,13 +153,10 @@ export default {
         },
         update(){
             let newData = {
-                kodePrm: this.form.kodePrm,
-                jenisPrm: this.form.jenisPrm,
-                keteranganPrm: this.form.keteranganPrm,
-                diskonPrm: this.form.diskonPrm,
+                namaRole: this.form.namaRole,
             };
 
-            var url = this.$api + '/promo/' + this.editId;
+            var url = this.$api + '/role/' + this.editId;
             this.load = true;
             this.$http.put(url, newData, {
                 // headers: {
@@ -233,7 +180,7 @@ export default {
             });
         },
         deleteData(){
-            var url = this.$api + '/promo/' + this.deleteId;
+            var url = this.$api + '/role/' + this.deleteId;
             this.load = true;
             this.$http.delete(url, {
                 // headers: {
@@ -259,11 +206,8 @@ export default {
         },
         editHandler(item){
             this.inputType = 'Ubah';
-            this.editId = item.idPromo;
-            this.form.kodePrm = item.kodePrm;
-            this.form.jenisPrm = item.jenisPrm;
-            this.form.keteranganPrm = item.keteranganPrm;
-            this.form.diskonPrm = item.diskonPrm;
+            this.editId = item.idRole;
+            this.form.namaRole = item.namaRole;
             this.dialog = true;
         },
         deleteHandler(id){
@@ -285,10 +229,7 @@ export default {
         },
         resetForm(){
             this.form = {
-              kodePrm: null,
-              jenisPrm: null, 
-              keteranganPrm: null, 
-              diskonPrm: null,  
+              namaRole: null,
             };
         },
     },
