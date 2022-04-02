@@ -42,8 +42,8 @@
                         <p v-else style="color:red">Tidak Tersedia</p>
                     </template>
                     <template v-slot:[`item.statusDokumenDrv`]="{ item }">
-                        <p v-if="item.statusDokumenDrv === 1" style="color:lightgreen">Terverifikasi</p>
-                        <p v-else style="color:red">Belum Diverifikasi</p>
+                        <p v-if="item.statusDokumenDrv === 1" style="color:lightgreen">Lolos</p>
+                        <p v-else style="color:red">Tidak Lolos</p>
                     </template>
                     <template v-slot:[`item.idDriverGenerated`]="{ item }">
                         <p style="width:120px;">{{item.idDriverGenerated}}</p>
@@ -87,11 +87,6 @@
                         <v-text-field v-if="formTitle === 'Tambah'"
                             v-model="form.emailDrv"
                             label="Email"
-                            required
-                        ></v-text-field>
-                        <v-text-field v-if="formTitle === 'Tambah'"
-                            v-model="form.passwordDrv"
-                            label="Password"
                             required
                         ></v-text-field>
 
@@ -266,6 +261,7 @@ export default {
                 { text: "Foto", value: "urlFotoDrv" },
                 { text: "Nama", value: "namaDrv" },
                 { text: "Email", value: "emailDrv" },
+                { text: "Password", value: "passwordDrv" },
                 { text: "Alamat", value: "alamatDrv" },
                 { text: "Tanggal Lahir", value: "tglLahirDrv" },
                 { text: "Jenis Kelamin", value: "jenisKelaminDrv" },
@@ -351,7 +347,6 @@ export default {
             this.driver.append('tglLahirDrv', this.form.tglLahirDrv);
             this.driver.append('jenisKelaminDrv', this.form.jenisKelaminDrv);
             this.driver.append('emailDrv', this.form.emailDrv);
-            this.driver.append('passwordDrv', this.form.passwordDrv);
             this.driver.append('noTelpDrv', this.form.noTelpDrv);
             this.driver.append('bahasaAsing', this.form.bahasaAsing);
             this.driver.append('tarifDrv', this.form.tarifDrv);            
@@ -465,6 +460,7 @@ export default {
                 suratKesehatanJiwaDrv: this.form.suratKesehatanJiwaDrv,
                 suratKesehatanJasmaniDrv: this.form.suratKesehatanJasmaniDrv,
                 skckDrv: this.form.skckDrv,
+                passwordDrv: this.form.passwordDrv,
             };
 
             var url = this.$api + '/driver/' + this.editId;
@@ -543,6 +539,7 @@ export default {
             this.form.suratKesehatanJiwaDrv = item.suratKesehatanJiwaDrv;
             this.form.suratKesehatanJasmaniDrv = item.suratKesehatanJasmaniDrv;
             this.form.skckDrv = item.skckDrv;
+            this.form.passwordDrv = item.passwordDrv;
 
             this.dialog = true;
         },

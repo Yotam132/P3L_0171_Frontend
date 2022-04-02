@@ -9,7 +9,46 @@
             </v-list-item>
 
             <v-divider></v-divider>
-            <v-list dense nav v-if="isAdmin">
+            <v-list dense nav v-if="whatRole === 1">
+                <v-list-item
+                    v-for="item in itemsCustomer"
+                    :key="item.title"
+                    link
+                    tag="router-link"
+                    :to="item.to"
+                >
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+            <v-list dense nav v-else-if="whatRole === 2">
+                <v-list-item
+                    v-for="item in itemsManager"
+                    :key="item.title"
+                    link
+                    tag="router-link"
+                    :to="item.to"
+                >
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+            <v-list dense nav v-else-if="whatRole === 3">
+                <v-list-item
+                    v-for="item in itemsCS"
+                    :key="item.title"
+                    link
+                    tag="router-link"
+                    :to="item.to"
+                >
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+            <v-list dense nav v-else-if="whatRole === 4">
                 <v-list-item
                     v-for="item in itemsAdmin"
                     :key="item.title"
@@ -22,10 +61,9 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
-
-            <v-list dense nav v-if="!isAdmin">
+            <v-list dense nav v-else>
                 <v-list-item
-                    v-for="item in items"
+                    v-for="item in itemsUmum"
                     :key="item.title"
                     link
                     tag="router-link"
@@ -36,6 +74,8 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
+
+            
 
 
         </v-navigation-drawer>
@@ -62,15 +102,37 @@ export default {
         return {
             drawer: true,
 
-            items: [
-                { title: "Perusahaan", to: "/about"},
-                { title: "Pemesanan", to: "/pesanan"},
-                { title: "Profile", to: "/profile"},
+            itemsUmum: [
+                { title: "Daftar Customer", to: "/daftarcust"},
+                { title: "Login", to: "/login"},
+            ],
+
+            itemsManager: [
+                { title: "Detail Jadwal", to: "/detailjdw"},
+                { title: "Jadwal", to: "/jadwal"},
+                { title: "Promo", to: "/promo"},
+                { title: "Role", to: "/role"},
             ],
 
             itemsAdmin: [
-                { title: "Kurir", to: "/adminKurir"},
-                { title: "Paket", to: "/adminPaket"},
+                { title: "Driver", to: "/driver"},
+                { title: "Mitra", to: "/mitra"},
+                { title: "Mobil", to: "/mobil"},
+                { title: "Pegawai", to: "/pegawai"},
+            ],
+
+            itemsCS: [
+                { title: "Data Customer", to: "/customercs"},
+                { title: "Data Transaksi", to: "/transaksics"},
+                // { title: "Promo", to: "/promo"},
+                // { title: "Role", to: "/role"},
+            ],
+
+            itemsCustomer: [
+                { title: "Profil Customer", to: "/profilcustomer"},
+                { title: "Transaksi", to: "/transaksi"},
+                // { title: "Promo", to: "/promo"},
+                // { title: "Role", to: "/role"},
             ],
         };
     },
@@ -80,11 +142,39 @@ export default {
             this.$router.push({
                 name: 'Home',
             });
+            location.reload();
         },
     },
     computed: {
-        isAdmin(){
-            return localStorage.getItem("isAdmin") == 1;
+        whatRole(){
+            /**
+             * Customer == 1
+             * Manager == 2
+             * CS == 3
+             * Admin == 4
+             * 
+            */
+
+            if(localStorage.getItem("role") == "customer")
+            {
+                return 1;
+            }
+            else if(localStorage.getItem("role") == "Manager")
+            {
+                return 2;
+            }
+            else if(localStorage.getItem("role") == "CS")
+            {
+                return 3;
+            }
+            else if(localStorage.getItem("role") == "Admin")
+            {
+                return 4;
+            }
+            else
+            {
+                return 0;
+            }
         },
     },
 };

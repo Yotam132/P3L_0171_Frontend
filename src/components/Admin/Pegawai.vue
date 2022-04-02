@@ -57,7 +57,7 @@
                             label="Email"
                             required
                         ></v-text-field>
-                        <v-text-field v-if="formTitle === 'Tambah'"
+                        <v-text-field v-if="formTitle !== 'Tambah'"
                             v-model="form.passwordPgw"
                             label="Password"
                             required
@@ -171,6 +171,7 @@ export default {
                 { text: "Foto", value: "urlFotoPgw" },
                 { text: "Role", value: "idRole" },
                 { text: "Email", value: "emailPgw" },
+                { text: "Password", value: "passwordPgw" },
                 { text: "Alamat", value: "alamatPgw" },
                 { text: "Tanggal Lahir", value: "tglLahirPgw" },
                 { text: "Jenis Kelamin", value: "jenisKelaminPgw" },
@@ -248,7 +249,6 @@ export default {
 
             // url foto diappend ke base64
             this.pegawai.append('idRole', this.form.idRole);
-            this.pegawai.append('passwordPgw', this.form.passwordPgw);
 
 
             var url = this.$api + '/pegawai'
@@ -300,6 +300,7 @@ export default {
                 jenisKelaminPgw: this.form.jenisKelaminPgw,
                 noTelpPgw: this.form.noTelpPgw,
                 urlFotoPgw: this.form.urlFotoPgw,
+                passwordPgw: this.form.passwordPgw,
                 idRole: this.form.idRole,
             };
 
@@ -355,6 +356,7 @@ export default {
             this.editId = item.idPegawai;
 
             this.form.namaPgw = item.namaPgw;
+            this.form.passwordPgw = item.passwordPgw;
             this.form.alamatPgw = item.alamatPgw;
             this.form.tglLahirPgw = item.tglLahirPgw;
             this.form.jenisKelaminPgw = item.jenisKelaminPgw;

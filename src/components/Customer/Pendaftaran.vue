@@ -21,11 +21,6 @@
                             label="Email"
                             required
                         ></v-text-field>
-                        <v-text-field v-if="formTitle === 'Tambah'"
-                            v-model="form.passwordCust"
-                            label="Password"
-                            required
-                        ></v-text-field>
 
                         <v-select
                             v-model="form.jenisKelaminCust"
@@ -161,7 +156,6 @@ export default {
               noTelpCust: null,
               kartuPengenalCust: null,
               simCust: null,
-              passwordCust: null,
               
             },
 
@@ -201,7 +195,6 @@ export default {
             this.customer.append('noTelpCust', this.form.noTelpCust);
 
             // url foto diappend ke base64
-            this.customer.append('passwordCust', this.form.passwordPgw);
 
 
             var url = this.$api + '/customer'
@@ -343,7 +336,6 @@ export default {
               noTelpCust: null,
               kartuPengenalCust: null,
               simCust: null,
-              passwordCust: null,
             };
         },
     },
