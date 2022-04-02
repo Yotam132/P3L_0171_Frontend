@@ -204,7 +204,8 @@
 <script>
 
 import moment from 'moment';
-import jsPDF from 'jsPDF';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export default {
     name: "CstTrnsk",
@@ -726,10 +727,201 @@ export default {
         },
         cetakNota(item)
         {
-            let pdfName = 'Nota-' + item.idTransaksi; 
+            let pdfName = 'Nota-' + item.idTransaksiGenerated; 
             var doc = new jsPDF();
-            doc.text(item.idTransaksi, 10, 10);
+            var countHari = moment(item.tglSewaAkhir).diff(moment(item.tglSewaAwal), 'days') + 1;
+            var driverSelect = this.GetDriverTran(item.idDriver);
+            var promoSelect = this.GetPromoTran(item.idPromo);
+            var mobilSelect = this.GetMobilTran(item.idMobil);
+            var csName = this.GetNamaCustServ(item.idPegawai);
+
+            doc.setFontSize(14);
+            doc.text("Nota Transaksi", 90, 20); // 10 itu ke kanan, 80 itu kebawah
+            doc.text("Atma Jogja Rental", 87, 30); 
+            doc.setFontSize(12);
+            doc.text("--------------------------------------------------------------------------------------------------------------------------------", 15, 40); 
+            doc.text("Nota Transaksi Sewa Mobil", 15, 50); 
+
+            var kodePromo = '';
+            if(item.idPromo > 0)
+            {
+                kodePromo = promoSelect['kodePrm']
+            }
+
+            autoTable(doc, { // Atma Rental
+                margin: {top: 70},
+                head: [['Atma Rental', '', '', '']],
+                body: [
+                    [item.idTransaksiGenerated, '', '', moment(String(new Date())).format('YY-MM-DD, HH:MM')],
+                    ['', '', '', ''],
+                    ['CUST:', this.customerNow['namaCust'] , 'PRO:', kodePromo],
+                    ['CS  :', csName , '', ''],
+                    ['DRV :', driverSelect.namaDrv , '', ''],
+                ],
+            });
+            autoTable(doc, { // Nota Transaksi
+                margin: {top: 85},
+                head: [['Nota Transaksi', '', '', '']],
+                body: [
+                    ["Tanggal Mulai", moment(item.tglSewaAwal).format('YY-MM-DD'), '', ''],
+                    ["Tanggal Selesai", moment(item.tglSewaAkhir).format('YY-MM-DD'), '', ''],
+                    ["Tanggal Pengembalian", moment(item.tglPengembalian).format('YY-MM-DD'), '', ''],
+                    
+                ],
+            });
+
+            var dataHold = {
+                Item: driverSelect['namaDrv'],
+                Satuan: driverSelect['tarifDrv'],
+                Durasi: countHari + ' hari',
+                SubTotal: (driverSelect['tarifDrv'] * countHari),
+            };
+
+            var subTotal = null;
+            if(item.idDriver <= 0)
+            {
+                dataHold.Item = "";
+                dataHold.Satuan = "";
+                dataHold.Durasi = "";
+                dataHold.SubTotal = "";
+                subTotal = (mobilSelect['hargaSewa'] * countHari);
+            }
+            else
+            {
+                subTotal = (mobilSelect['hargaSewa'] * countHari) + dataHold.SubTotal;
+            }
+
+
+            autoTable(doc, { // Detail Harga
+                margin: {top: 105},
+                head: [['Item', 'Satuan', 'Durasi', 'Sub Total']],
+                body: [
+                    [mobilSelect['namaMbl'], mobilSelect['hargaSewa'], countHari + ' hari', (mobilSelect['hargaSewa'] * countHari)],
+                    [dataHold.Item, dataHold.Satuan, dataHold.Durasi, dataHold.SubTotal],
+                    ['', '', '', subTotal],
+                    
+                ],
+            });
+
+            var diskon = 0;
+            var denda = 0;
+            var totalHarga = 0;
+
+            if(item.idPromo > 0)
+            {
+                diskon = (subTotal * promoSelect['diskonPrm']) / 100;
+                totalHarga = subTotal - diskon;
+            }
+            else
+            {
+                totalHarga = subTotal;
+            }
+
+            //ccke denda disini
+            if(item.idPromo > 0)
+            {// berpromo
+                if(totalHarga !== item.totalHargaAkhir)
+                {
+                    var totLama = subTotal - diskon;
+                    denda = item.totalHargaAkhir - totLama;
+                }
+            }
+            else
+            {
+                if(subTotal !== item.totalHargaAkhir) // ada denda
+                {
+                    denda = item.totalHargaAkhir - subTotal;
+                }
+            }
+
+            autoTable(doc, { // Totalan
+                margin: {top: 135},
+                head: [['', '', '', '']],
+                body: [
+                    ['Cust', 'CS', 'Disc', diskon],
+                    ['', '', 'Denda', denda],
+                    ['', '', 'Total', item.totalHargaAkhir],
+                    [this.customerNow['namaCust'], csName, '', ''],
+                ],
+            });
+
+            autoTable(doc, { // Penjelasan
+                margin: {top: 185},
+                head: [['Nomor Transaksi : ' + item.idTransaksiGenerated, '']],
+                body: [
+                    ['Cust   :', 'Nama Customer'],
+                    ['CS     :', 'Nama Customer Service'],
+                    ['DRV    :', 'Nama Driver'],
+                    ['PRO    :', 'Kode Promo'],
+                ],
+            });
+
             doc.save(pdfName + '.pdf');
+        },
+        GetNamaCustServ(id)
+        {
+            for(var c=0;c<this.pegawais.length ;c++)
+            {
+                if(id === this.pegawais[c]['idPegawai'])
+                {
+                    return this.pegawais[c]['namaPgw'];
+                }
+            }
+            return '';
+        },
+        GetPromoTran(id)
+        {
+            if(id > 0)
+            {
+                for(var c=0;c<this.promos.length;c++)
+                {
+                    if(id === this.promos[c]['idPromo'])
+                    {
+                        return this.promos[c];
+                    }
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        },
+        GetDriverTran(id)
+        {
+            if(id > 0)
+            {
+                for(var c=0;c<this.drivers.length;c++)
+                {
+                    if(id === this.drivers[c]['idDriver'])
+                    {
+                        return this.drivers[c];
+                    }
+                }
+                return '';
+            }
+            else
+            {
+                return '-';
+            }
+        },
+        GetMobilTran(id)
+        {
+            if(id > 0)
+            {
+                for(var c=0;c<this.mobils.length;c++)
+                {
+                    if(id === this.mobils[c]['idMobil'])
+                    {
+                        return this.mobils[c];
+                    }
+                }
+                return '';
+            }
+            else
+            {
+                return '-';
+            }
         },
     },
 

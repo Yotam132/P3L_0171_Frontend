@@ -18,7 +18,7 @@
                     <template v-slot:[`item.actions`]="{ item }">
                         <td>
                             <tr>
-                                <v-btn x-small color="purple" dark @click="editHandler(item)" style="margin:5px;"> Ubah Status </v-btn>
+                                <v-btn v-if="item.statusTransaksi !== 'Selesai'" x-small color="purple" dark @click="editHandler(item)" style="margin:5px;"> Ubah Status </v-btn>
                                 <v-icon v-if="item.statusTransaksi === 'Belum Verifikasi'" small color="red" @click="deleteHandler(item.idTransaksi)"> mdi-delete </v-icon>
                             </tr>
                         </td>
@@ -87,6 +87,9 @@
 </template>
 
 <script>
+
+import moment from 'moment';
+
 export default {
     name: "CSTrans",
     data() {
@@ -131,7 +134,10 @@ export default {
             transaksis: [],
             customers: [],
             form: {
-              statusTransaksi: null,
+              statusTransaksi: null, 
+              statusLama: null, 
+              tglPengembalian: null, 
+              totalHargaAkhir: null,
             },
 
             deleteId: null,
@@ -162,8 +168,20 @@ export default {
             })
         },
         update(){
+            if(this.form.statusTransaksi === 'Selesai')
+            {
+                var hari = moment(moment(this.form.tglPengembalian)).diff(moment(String(new Date())).format('YYYY-MM-DD'), 'days') + 1;
+                if(hari < 0)
+                {
+                    var denda = 50000 * hari * -1;
+                    this.form.totalHargaAkhir += denda;
+                }
+            }
+
+
             let newData = {
                 statusTransaksi: this.form.statusTransaksi,
+                totalHargaAkhir: this.form.totalHargaAkhir,
             };
 
             var url = this.$api + '/transaksistat/' + this.editId;
@@ -218,6 +236,10 @@ export default {
             this.editId = item.idTransaksi;
 
             this.form.statusTransaksi = item.statusTransaksi;
+            this.form.statusLama = item.statusTransaksi;
+            this.form.totalHargaAkhir = item.totalHargaAkhir;
+            this.form.tglPengembalian = item.tglPengembalian;
+
 
             this.dialog = true;
         },
@@ -241,6 +263,9 @@ export default {
         resetForm(){
             this.form = {
               statusTransaksi: null, 
+              statusLama: null, 
+              tglPengembalian: null, 
+              totalHargaAkhir: null, 
             };
         },
         getCustomer(){
