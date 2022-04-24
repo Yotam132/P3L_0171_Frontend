@@ -8,7 +8,9 @@ import axios from 'axios';
 Vue.config.productionTip = false;
 
 Vue.prototype.$http = axios;
-Vue.prototype.$api = 'http://127.0.0.1:8000/api'; //link backend
+// Vue.prototype.$api = 'http://127.0.0.1:8000/api'; //link backend
+Vue.prototype.$api = 'http://192.168.1.5:8000/api'; //link backend with andro
+
 
 
 new Vue({

@@ -312,6 +312,7 @@ export default {
         },
         sewaAkhirCheck()
         {
+            console.log(this.selectedDriver);
             if(this.inputType !== 'Tambah')
             {
                 if(this.form.pakaiDriver === '1')
@@ -323,6 +324,11 @@ export default {
                             this.selectedDriver = this.drivers[f];
                             break;
                         }
+                    }
+
+                    if(this.selectedDriver === null)
+                    {
+                        this.selectedDriver = this.drivers[Math.floor(Math.random() * this.drivers.length)];
                     }
                 }
                 else
@@ -528,10 +534,11 @@ export default {
             var rerataRatingBaru = 0;
             if(this.form.ratingDriver > 0 && this.form.idDriver > 0)
             {
+                
                 var theDriver = null;
                 for(var z=0; z<this.drivers.length; z++)
                 {
-                    if(this.form.idDriver === this.drivers[z]['idDriver'])
+                    if(this.form.idDriver === this.drivers[z].idDriver)
                     {
                         theDriver = this.drivers[z];
                         break;
@@ -543,14 +550,20 @@ export default {
                     var floated = parseFloat(this.form.ratingDriver);
                     if(this.oldRatingDriver > 0 && theDriver['rerataRatingDrv'] > 0)
                     {
+                        
                         var rate = (theDriver['rerataRatingDrv'] * 2) - this.oldRatingDriver;
                         rerataRatingBaru = (rate + floated) / 2;
                     }
                     else if(this.oldRatingDriver <= 0 && theDriver['rerataRatingDrv'] > 0) 
                     {
+                        
                         rerataRatingBaru = (floated + theDriver['rerataRatingDrv']) / 2;
                     }
                     else if(this.oldRatingDriver <= 0 && theDriver['rerataRatingDrv'] <= 0)
+                    {
+                        rerataRatingBaru = floated;
+                    }
+                    else
                     {
                         rerataRatingBaru = floated;
                     }
@@ -561,7 +574,7 @@ export default {
                 var theDriver2 = null;
                 for(var f=0; f<this.drivers.length; f++)
                 {
-                    if(this.form.idDriver === this.drivers[f]['idDriver'])
+                    if(this.form.idDriver === this.drivers[f].idDriver)
                     {
                         theDriver2 = this.drivers[f];
                         break;
@@ -572,6 +585,7 @@ export default {
                 rerataRatingBaru = rate2;
             }
 
+            var IDDRIVER = this.form.idDriver;
             let newData = {
                 idMobil: this.form.idMobil,
                 idDriver: this.form.idDriver,
@@ -587,8 +601,6 @@ export default {
                 ratingPerusahaan: this.form.ratingPerusahaan,
             };
 
-            console.log(this.oldRatingDriver +' -- '+ rerataRatingBaru);
-
             var url = this.$api + '/transaksi/' + this.editId;
             this.load = true;
             this.$http.put(url, newData, {
@@ -603,29 +615,39 @@ export default {
                 let ratingData = {
                     rerataRatingDrv: rerataRatingBaru,
                 };
-
-                var urlUpd = this.$api + '/driverrating/' + this.form.idDriver;
-                this.load = true;
-                this.$http.put(urlUpd, ratingData, {
-                    // headers: {
-                    //     'Authorization' : 'Bearer ' + localStorage.getItem('token')
-                    // }
-                }).then(response => {
-                    this.error_message = response.data.message;
-                    this.color = 'green';
-                    this.snackbar = true;
-                    this.load = false;
+                if(this.form.statusTransaksi !== 'Belum Verifikasi' && this.form.pakaiDriver === '1')
+                {
+                    var urlUpd = this.$api + '/driverrating/' + IDDRIVER;
+                    this.load = true;
+                    this.$http.put(urlUpd, ratingData, {
+                        // headers: {
+                        //     'Authorization' : 'Bearer ' + localStorage.getItem('token')
+                        // }
+                    }).then(response => {
+                        this.error_message = response.data.message;
+                        this.color = 'green';
+                        this.snackbar = true;
+                        this.load = false;
+                        this.close();
+                        location.reload();
+                        this.readData();
+                        this.resetForm();
+                        this.inputType = 'Tambah';
+                    }).catch(error => {
+                        this.error_message = error.response.data.message;
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.load = false;
+                    });
+                }
+                else
+                {
                     this.close();
                     location.reload();
                     this.readData();
                     this.resetForm();
                     this.inputType = 'Tambah';
-                }).catch(error => {
-                    this.error_message = error.response.data.message;
-                    this.color = "red";
-                    this.snackbar = true;
-                    this.load = false;
-                });
+                }
             }).catch(error => {
                 this.error_message = error.response.data.message;
                 this.color = "red";

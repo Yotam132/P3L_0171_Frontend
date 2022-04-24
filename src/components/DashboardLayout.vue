@@ -111,7 +111,6 @@ export default {
                 { title: "Detail Jadwal", to: "/detailjdw"},
                 { title: "Jadwal", to: "/jadwal"},
                 { title: "Promo", to: "/promo"},
-                { title: "Role", to: "/role"},
             ],
 
             itemsAdmin: [
@@ -119,6 +118,7 @@ export default {
                 { title: "Mitra", to: "/mitra"},
                 { title: "Mobil", to: "/mobil"},
                 { title: "Pegawai", to: "/pegawai"},
+                { title: "Role", to: "/role"},
             ],
 
             itemsCS: [
