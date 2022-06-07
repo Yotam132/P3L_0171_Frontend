@@ -18,34 +18,34 @@
                 <v-data-table :headers="headers" :items="transaksis" :search="search">
                     <template v-slot:[`item.idMobil`]="{ item }">
                         <div v-for="mob in mobils" :key="mob.idMobil">
-                            <p v-if="mob.idMobil === item.idMobil">{{ mob.namaMbl }}</p>
+                            <p v-if="mob.idMobil == item.idMobil">{{ mob.namaMbl }}</p>
                         </div>
                     </template>
                     <template v-slot:[`item.idPegawai`]="{ item }">
                         <div v-for="pgw in pegawais" :key="pgw.idPegawai">
-                            <p v-if="pgw.idPegawai === item.idPegawai">{{ pgw.namaPgw }}</p>
+                            <p v-if="pgw.idPegawai == item.idPegawai">{{ pgw.namaPgw }}</p>
                         </div>
                     </template>
                     <template v-slot:[`item.idDriver`]="{ item }">
                         <div v-for="itm in drivers" :key="itm.idDriver">
-                            <p v-if="itm.idDriver === item.idDriver">{{ itm.namaDrv }}</p>
+                            <p v-if="itm.idDriver == item.idDriver">{{ itm.namaDrv }}</p>
                         </div>
-                            <p v-if="item.idDriver === null && item.idDriver <= 0">Tanpa Driver</p>
+                            <p v-if="item.idDriver == null && item.idDriver <= 0">Tanpa Driver</p>
                     </template>
                     <template v-slot:[`item.idPromo`]="{ item }">
                         <div v-for="itm in promos" :key="itm.idPromo">
-                            <p v-if="itm.idPromo === item.idPromo">{{ itm.kodePrm }}</p>
+                            <p v-if="itm.idPromo == item.idPromo">{{ itm.kodePrm }}</p>
                         </div>
-                            <p v-if="item.idPromo === null && item.idPromo <= 0">Tanpa Promo</p>
+                            <p v-if="item.idPromo == null && item.idPromo <= 0">Tanpa Promo</p>
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
                         <td>
                             <tr>
-                                <v-icon v-if="item.statusTransaksi !== 'Gagal'" small color="green" class="mr-2" @click="editHandler(item)"> mdi-pencil </v-icon>
-                                <v-icon v-if="item.statusTransaksi === 'Belum Verifikasi'" small color="red" @click="deleteHandler(item.idTransaksi)"> mdi-delete </v-icon>
+                                <v-icon v-if="item.statusTransaksi != 'Gagal'" small color="green" class="mr-2" @click="editHandler(item)"> mdi-pencil </v-icon>
+                                <v-icon v-if="item.statusTransaksi == 'Belum Verifikasi'" small color="red" @click="deleteHandler(item.idTransaksi)"> mdi-delete </v-icon>
                             </tr>
                             <tr>
-                                <v-btn v-if="item.statusTransaksi === 'Selesai'" x-small color="purple" dark @click="cetakNota(item)"> Cetak Nota </v-btn>
+                                <v-btn v-if="item.statusTransaksi == 'Selesai'" x-small color="purple" dark @click="cetakNota(item)"> Cetak Nota </v-btn>
                             </tr>
                         </td>
                     </template>
@@ -71,7 +71,7 @@
                 <v-card-text>
                     <v-container>
 
-                        <v-select v-if="formTitle === 'Tambah' || this.form.statusTransaksi === 'Belum Verifikasi'"
+                        <v-select v-if="formTitle == 'Tambah' || this.form.statusTransaksi == 'Belum Verifikasi'"
                             v-model="form.idMobil"
                             :items="mobils"
                             v-on:change="sewaAkhirCheck"
@@ -81,7 +81,7 @@
                             required
                         ></v-select>
 
-                        <v-select v-if="formTitle === 'Tambah' || this.form.statusTransaksi === 'Belum Verifikasi'"
+                        <v-select v-if="formTitle == 'Tambah' || this.form.statusTransaksi == 'Belum Verifikasi'"
                             v-model="form.pakaiDriver"
                             :items="pakaiDriver"
                             v-on:change="DriverCheck"
@@ -96,7 +96,7 @@
                             required
                         ></v-text-field>
 
-                        <div v-if="formTitle === 'Tambah' || this.form.statusTransaksi === 'Belum Verifikasi'" style="text-align:left;font-size:17px;margin-top:3px;margin-bottom:5px;">
+                        <div v-if="formTitle == 'Tambah' || this.form.statusTransaksi == 'Belum Verifikasi'" style="text-align:left;font-size:17px;margin-top:3px;margin-bottom:5px;">
                             <label for="tgLh" >Tanggal Mulai Sewa: </label>
                             <input type="date" 
                                 name="tgLh"
@@ -106,7 +106,7 @@
                             />
                         </div>
 
-                        <div v-if="formTitle === 'Tambah' || this.form.statusTransaksi === 'Belum Verifikasi'" style="text-align:left;font-size:17px;margin-top:3px;margin-bottom:5px;">
+                        <div v-if="formTitle == 'Tambah' || this.form.statusTransaksi == 'Belum Verifikasi'" style="text-align:left;font-size:17px;margin-top:3px;margin-bottom:5px;">
                             <label for="tgLh" >Tanggal Selesai Sewa: </label>
                             <input type="date" 
                                 name="tgLh"
@@ -117,7 +117,7 @@
                             />
                         </div>
 
-                        <div v-if="formTitle === 'Tambah' || this.form.statusTransaksi === 'Belum Verifikasi'" style="text-align:left;font-size:17px;margin-top:50px;margin-bottom:5px;">
+                        <div v-if="formTitle == 'Tambah' || this.form.statusTransaksi == 'Belum Verifikasi'" style="text-align:left;font-size:17px;margin-top:50px;margin-bottom:5px;">
                             <label for="tgLh" >Sub Total: </label>
                             <input type="text" 
                                 name="tgLh"
@@ -127,7 +127,7 @@
                             />
                         </div>
 
-                        <v-select v-if="formTitle === 'Tambah' || this.form.statusTransaksi === 'Belum Verifikasi'"
+                        <v-select v-if="formTitle == 'Tambah' || this.form.statusTransaksi == 'Belum Verifikasi'"
                             v-model="form.idPromo"
                             :items="promos"
                             :item-text="item => item.kodePrm +' - '+ item.jenisPrm + ' ('+ item.diskonPrm +'%)'"
@@ -137,7 +137,7 @@
                             required
                         ></v-select>
                         
-                        <div v-if="formTitle === 'Tambah' || this.form.statusTransaksi === 'Belum Verifikasi'" style="text-align:left;font-size:17px;margin-top:3px;margin-bottom:5px;">
+                        <div v-if="formTitle == 'Tambah' || this.form.statusTransaksi == 'Belum Verifikasi'" style="text-align:left;font-size:17px;margin-top:3px;margin-bottom:5px;">
                             <label for="tgLh" >Tanggal Pengembalian: </label>
                             <input type="date" 
                                 name="tgLh"
@@ -158,7 +158,7 @@
                         </div>
 
                         <v-text-field
-                            v-if="formTitle !== 'Tambah' && form.pakaiDriver === '1' && form.statusTransaksi !== 'Belum Verifikasi'"
+                            v-if="formTitle !== 'Tambah' && form.pakaiDriver == '1' && form.statusTransaksi !== 'Belum Verifikasi'"
                             v-model="form.ratingDriver"
                             label="Rating Driver (1 - 10)"
                             required
@@ -288,9 +288,9 @@ export default {
 
     methods: {
         DriverCheck(){
-            if(this.form.pakaiDriver === '0')
+            if(this.form.pakaiDriver == '0')
             {
-                if(this.customerNow['statusDokumenCust'] === 0)
+                if(this.customerNow['statusDokumenCust'] == 0)
                 {
                     this.form.pakaiDriver = '1';
                     this.selectedDriver = this.drivers[Math.floor(Math.random() * this.drivers.length)];
@@ -301,7 +301,7 @@ export default {
             }
             else
             {
-                if(this.inputType === 'Tambah')
+                if(this.inputType == 'Tambah')
                 {
                     this.selectedDriver = this.drivers[Math.floor(Math.random() * this.drivers.length)];
                 }
@@ -315,18 +315,18 @@ export default {
             console.log(this.selectedDriver);
             if(this.inputType !== 'Tambah')
             {
-                if(this.form.pakaiDriver === '1')
+                if(this.form.pakaiDriver == '1')
                 {
                     for(var f=0; f<this.drivers.length; f++)
                     {
-                        if(this.drivers[f]['idDriver'] === this.form.idDriver)
+                        if(this.drivers[f]['idDriver'] == this.form.idDriver)
                         {
                             this.selectedDriver = this.drivers[f];
                             break;
                         }
                     }
 
-                    if(this.selectedDriver === null)
+                    if(this.selectedDriver == null)
                     {
                         this.selectedDriver = this.drivers[Math.floor(Math.random() * this.drivers.length)];
                     }
@@ -345,7 +345,7 @@ export default {
                 this.form.tglSewaAkhir = temp;
                 hari = moment(this.form.tglSewaAkhir).diff(moment(this.form.tglSewaAwal), 'days') + 1;
             }
-            if(this.form.pakaiDriver === '1')
+            if(this.form.pakaiDriver == '1')
             {
                 this.hargaDriver = this.selectedDriver['tarifDrv'] * hari;
                 this.form.idDriver = this.selectedDriver['idDriver'];
@@ -358,7 +358,7 @@ export default {
             var mobil = null;
             for(var k=0; k<this.mobils.length; k++)
             {
-                if(this.mobils[k]['idMobil'] === this.form.idMobil)
+                if(this.mobils[k]['idMobil'] == this.form.idMobil)
                 {
                     mobil = this.mobils[k];
                     break;
@@ -381,7 +381,7 @@ export default {
                 for(var i=0; i<this.promos.length; i++)
                 {
                     console.log(this.promos[i]);
-                    if(this.promos[i]['idPromo'] === this.form.idPromo)
+                    if(this.promos[i]['idPromo'] == this.form.idPromo)
                     {
                         prom = this.promos[i];
                         break;
@@ -432,6 +432,7 @@ export default {
                 // }
             }).then(response => {
                 this.mobils = response.data.data;
+                this.getDriver();
             })
         },
         getCustNow(){
@@ -442,6 +443,7 @@ export default {
                 // }
             }).then(response => {
                 this.customerNow = response.data.data;
+                this.readData();
             })
         },
         getDriver(){
@@ -452,6 +454,7 @@ export default {
                 // }
             }).then(response => {
                 this.drivers = response.data.data;
+                this.getPegawai();
             })
         },
         getPegawai(){
@@ -462,6 +465,7 @@ export default {
                 // }
             }).then(response => {
                 this.pegawais = response.data.data;
+                this.getPromo();
             })
         },
         getPromo(){
@@ -472,6 +476,7 @@ export default {
                 // }
             }).then(response => {
                 this.promos = response.data.data;
+                this.getCustNow();
             })
         },
         save(){
@@ -526,7 +531,7 @@ export default {
             });
         },
         update(){
-            if(this.form.idDriver <= 0 || this.form.pakaiDriver === '0')
+            if(this.form.idDriver <= 0 || this.form.pakaiDriver == '0')
             {
                 this.form.idDriver = null;
             }
@@ -538,7 +543,7 @@ export default {
                 var theDriver = null;
                 for(var z=0; z<this.drivers.length; z++)
                 {
-                    if(this.form.idDriver === this.drivers[z].idDriver)
+                    if(this.form.idDriver == this.drivers[z].idDriver)
                     {
                         theDriver = this.drivers[z];
                         break;
@@ -574,7 +579,7 @@ export default {
                 var theDriver2 = null;
                 for(var f=0; f<this.drivers.length; f++)
                 {
-                    if(this.form.idDriver === this.drivers[f].idDriver)
+                    if(this.form.idDriver == this.drivers[f].idDriver)
                     {
                         theDriver2 = this.drivers[f];
                         break;
@@ -615,7 +620,7 @@ export default {
                 let ratingData = {
                     rerataRatingDrv: rerataRatingBaru,
                 };
-                if(this.form.statusTransaksi !== 'Belum Verifikasi' && this.form.pakaiDriver === '1')
+                if(this.form.statusTransaksi !== 'Belum Verifikasi' && this.form.pakaiDriver == '1')
                 {
                     var urlUpd = this.$api + '/driverrating/' + IDDRIVER;
                     this.load = true;
@@ -884,7 +889,7 @@ export default {
         {
             for(var c=0;c<this.pegawais.length ;c++)
             {
-                if(id === this.pegawais[c]['idPegawai'])
+                if(id == this.pegawais[c]['idPegawai'])
                 {
                     return this.pegawais[c]['namaPgw'];
                 }
@@ -897,7 +902,7 @@ export default {
             {
                 for(var c=0;c<this.promos.length;c++)
                 {
-                    if(id === this.promos[c]['idPromo'])
+                    if(id == this.promos[c]['idPromo'])
                     {
                         return this.promos[c];
                     }
@@ -915,7 +920,7 @@ export default {
             {
                 for(var c=0;c<this.drivers.length;c++)
                 {
-                    if(id === this.drivers[c]['idDriver'])
+                    if(id == this.drivers[c]['idDriver'])
                     {
                         return this.drivers[c];
                     }
@@ -933,7 +938,7 @@ export default {
             {
                 for(var c=0;c<this.mobils.length;c++)
                 {
-                    if(id === this.mobils[c]['idMobil'])
+                    if(id == this.mobils[c]['idMobil'])
                     {
                         return this.mobils[c];
                     }
@@ -953,12 +958,7 @@ export default {
         },
     },
     mounted(){
-        this.readData();
         this.getMobil();
-        this.getDriver();
-        this.getPegawai();
-        this.getPromo();
-        this.getCustNow();
     },
 };
 </script>

@@ -18,14 +18,14 @@
                     <template v-slot:[`item.actions`]="{ item }">
                         <td>
                             <tr>
-                                <v-btn v-if="item.statusTransaksi !== 'Selesai'" x-small color="purple" dark @click="editHandler(item)" style="margin:5px;"> Ubah Status </v-btn>
-                                <v-icon v-if="item.statusTransaksi === 'Belum Verifikasi'" small color="red" @click="deleteHandler(item.idTransaksi)"> mdi-delete </v-icon>
+                                <v-btn v-if="item.statusTransaksi != 'Selesai'" x-small color="purple" dark @click="editHandler(item)" style="margin:5px;"> Ubah Status </v-btn>
+                                <v-icon v-if="item.statusTransaksi == 'Belum Verifikasi'" small color="red" @click="deleteHandler(item.idTransaksi)"> mdi-delete </v-icon>
                             </tr>
                         </td>
                     </template>
                     <template v-slot:[`item.idCustomer`]="{ item }">
                         <div v-for="cst in customers" :key="cst.idCustomer">
-                            <p style="width:120px;" v-if="cst.idCustomer === item.idCustomer">{{ cst.namaCust }}</p>
+                            <p style="width:120px;" v-if="cst.idCustomer == item.idCustomer">{{ cst.namaCust }}</p>
                         </div>
                     </template>
                     <template v-slot:[`item.idTransaksiGenerated`]="{ item }">
@@ -168,7 +168,7 @@ export default {
             })
         },
         update(){
-            if(this.form.statusTransaksi === 'Selesai')
+            if(this.form.statusTransaksi == 'Selesai')
             {
                 var hari = moment(moment(this.form.tglPengembalian)).diff(moment(String(new Date())).format('YYYY-MM-DD'), 'days') + 1;
                 if(hari < 0)

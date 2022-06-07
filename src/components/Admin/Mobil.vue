@@ -19,9 +19,9 @@
                 <v-data-table :headers="headers" :items="mobils" :search="search">
                     <template v-slot:[`item.idMitra`]="{ item }">
                         <div v-for="mitra in mitras" :key="mitra.idMitra">
-                            <p v-if="mitra.idMitra === item.idMitra" style="width:100px;">{{ mitra.namaMtr }}</p>
+                            <p v-if="mitra.idMitra == item.idMitra" style="width:100px;">{{ mitra.namaMtr }}</p>
                         </div>
-                        <p v-if="item.idMitra === null && item.idMitra <= 0" style="width:100px;">Perusahaan</p>
+                        <p v-if="item.idMitra == null && item.idMitra <= 0" style="width:100px;">Perusahaan</p>
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
                         <td>
@@ -53,7 +53,7 @@
                         <img style="width:150px;height:150px;" v-bind:src="item.urlFotoMbl" />
                     </template>
                     <template v-slot:[`item.statusMbl`]="{ item }">
-                        <p v-if="item.statusMbl === 1" style="color:lightgreen;width:80px;">Siap Pakai</p>
+                        <p v-if="item.statusMbl == 1" style="color:lightgreen;width:80px;">Siap Pakai</p>
                         <p v-else style="color:red;width:80px;">Tidak Siap Pakai</p>
                     </template>
                 </v-data-table>

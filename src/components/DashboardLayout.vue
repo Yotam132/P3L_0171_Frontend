@@ -9,7 +9,7 @@
             </v-list-item>
 
             <v-divider></v-divider>
-            <v-list dense nav v-if="whatRole === 1">
+            <v-list dense nav v-if="whatRole == 1">
                 <v-list-item
                     v-for="item in itemsCustomer"
                     :key="item.title"
@@ -22,7 +22,7 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
-            <v-list dense nav v-else-if="whatRole === 2">
+            <v-list dense nav v-else-if="whatRole == 2">
                 <v-list-item
                     v-for="item in itemsManager"
                     :key="item.title"
@@ -35,7 +35,7 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
-            <v-list dense nav v-else-if="whatRole === 3">
+            <v-list dense nav v-else-if="whatRole == 3">
                 <v-list-item
                     v-for="item in itemsCS"
                     :key="item.title"
@@ -48,7 +48,7 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
-            <v-list dense nav v-else-if="whatRole === 4">
+            <v-list dense nav v-else-if="whatRole == 4">
                 <v-list-item
                     v-for="item in itemsAdmin"
                     :key="item.title"

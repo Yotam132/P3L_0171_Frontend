@@ -180,7 +180,7 @@ export default {
                     */
                    localStorage.setItem('id', userLogin['idPegawai']);
 
-                    if(userLogin['idRole'] === 1)
+                    if(userLogin['idRole'] == 1)
                     {
                         localStorage.setItem('role', 'Manager');
 
@@ -189,7 +189,7 @@ export default {
                         });
                         location.reload();
                     }
-                    else if(userLogin['idRole'] === 2)
+                    else if(userLogin['idRole'] == 2)
                     {
                         localStorage.setItem('role', 'CS');
 
@@ -198,7 +198,7 @@ export default {
                         });
                         location.reload();
                     }
-                    else if(userLogin['idRole'] === 3)
+                    else if(userLogin['idRole'] == 3)
                     {
                         localStorage.setItem('role', 'Admin');
 

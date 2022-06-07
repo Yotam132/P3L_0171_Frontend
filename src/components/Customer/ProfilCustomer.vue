@@ -52,7 +52,7 @@
                     <tr>
                         <th width="180px" height="50px" style="text-align:right;padding-left:8%;">Status Verifikasi Dokumen</th>
                         <td width="510px" style="text-align:left;padding-left:38%;"> 
-                            <p v-if="customers.statusDokumenCust === 1" style="color:lightgreen">Lolos</p>
+                            <p v-if="customers.statusDokumenCust == 1" style="color:lightgreen">Lolos</p>
                             <p v-else style="color:red">Tidak Lolos</p>
                         </td>
                     </tr>
@@ -304,7 +304,7 @@ export default {
             let rawImg;
             reader.onloadend = () => {
                 rawImg = reader.result;
-                if(urutan === 1)
+                if(urutan == 1)
                 {
                     this.form.kartuPengenalCust = rawImg;
                 }

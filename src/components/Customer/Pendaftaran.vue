@@ -16,7 +16,7 @@
                         ></v-text-field>
 
                         <!-- Jika Tambah ada ini -->
-                        <v-text-field v-if="formTitle === 'Tambah'"
+                        <v-text-field v-if="formTitle == 'Tambah'"
                             v-model="form.emailCust"
                             label="Email"
                             required
@@ -225,12 +225,12 @@ export default {
             let rawImg;
             reader.onloadend = () => {
                 rawImg = reader.result;
-                if(urutan === 1)
+                if(urutan == 1)
                 {
                     this.customer.append('kartuPengenalCust', rawImg);
                     document.getElementById('SelectedImg1').src = rawImg;
                 }
-                else if(urutan === 2)
+                else if(urutan == 2)
                 {
                     this.customer.append('simCust', rawImg);
                     document.getElementById('SelectedImg2').src = rawImg;

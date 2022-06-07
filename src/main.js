@@ -9,7 +9,7 @@ Vue.config.productionTip = false;
 
 Vue.prototype.$http = axios;
 // Vue.prototype.$api = 'http://127.0.0.1:8000/api'; //link backend
-Vue.prototype.$api = 'http://192.168.1.5:8000/api'; //link backend with andro
+Vue.prototype.$api = 'https://www.p3lbackend.p3l10171.xyz/api'; //link backend with andro
 
 
 

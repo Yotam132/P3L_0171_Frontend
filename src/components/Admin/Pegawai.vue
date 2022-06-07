@@ -18,7 +18,7 @@
                 <v-data-table :headers="headers" :items="pegawais" :search="search">
                     <template v-slot:[`item.idRole`]="{ item }">
                         <div v-for="role in roles" :key="role.idRole">
-                            <p v-if="role.idRole === item.idRole">{{ role.namaRole }}</p>
+                            <p v-if="role.idRole == item.idRole">{{ role.namaRole }}</p>
                         </div>
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
@@ -52,7 +52,7 @@
                         ></v-text-field>
 
                         <!-- Jika Tambah ada ini -->
-                        <v-text-field v-if="formTitle === 'Tambah'"
+                        <v-text-field v-if="formTitle == 'Tambah'"
                             v-model="form.emailPgw"
                             label="Email"
                             required

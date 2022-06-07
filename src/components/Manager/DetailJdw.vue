@@ -23,14 +23,14 @@
                     <template v-slot:[`item.idPegawai`]="{ item }">
                         <div v-for="pgw in Pegawais" :key="pgw.idPegawai">
                             <div v-for="rol in Roles" :key="rol.idRole">
-                                <p v-if="pgw.idPegawai === item.idPegawai && rol.idRole === pgw.idRole">{{ rol.namaRole }} - {{pgw.namaPgw }}</p>
+                                <p v-if="pgw.idPegawai == item.idPegawai && rol.idRole == pgw.idRole">{{ rol.namaRole }} - {{pgw.namaPgw }}</p>
                             </div>
                         </div>
                     </template>
                     <template v-slot:[`item.idJadwal`]="{ item }">
                         <div v-for="jdw in Jadwals" :key="jdw.idJadwal">
-                            <p v-if="item.idJadwal === jdw.idJadwal">{{ jdw.hari}} - 
-                                <span v-if="jdw.nomorShift === 1" style="color:darkred">Shift 1</span>
+                            <p v-if="item.idJadwal == jdw.idJadwal">{{ jdw.hari}} - 
+                                <span v-if="jdw.nomorShift == 1" style="color:darkred">Shift 1</span>
                                 <span v-else>Shift 2</span>
                             </p>
                         </div>
@@ -54,7 +54,7 @@
                             label="Jadwal"
                             required
                         ></v-select>
-                        <v-select v-if="inputType === 'Tambah'"
+                        <v-select v-if="inputType == 'Tambah'"
                             v-model="form.idPegawai"
                             :items="Pegawais"
                             item-text="namaPgw"

@@ -24,7 +24,7 @@
                     </template>
 
                     <template v-slot:[`item.statusDokumenCust`]="{ item }">
-                        <p v-if="item.statusDokumenCust === 1" style="color:lightgreen">Lolos</p>
+                        <p v-if="item.statusDokumenCust == 1" style="color:lightgreen">Lolos</p>
                         <p v-else style="color:red">Tidak Lolos</p>
                     </template>
                     <template v-slot:[`item.idCustomerGenerated`]="{ item }">

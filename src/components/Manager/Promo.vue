@@ -28,7 +28,7 @@
                         </td>
                     </template>
                     <template v-slot:[`item.statusPrm`]="{ item }">
-                        <p v-if="item.statusPrm === 1" style="color:lightgreen">Aktif</p>
+                        <p v-if="item.statusPrm == 1" style="color:lightgreen">Aktif</p>
                         <p v-else style="color:red">Tidak Aktif</p>
                     </template>
                 </v-data-table>

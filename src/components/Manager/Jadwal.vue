@@ -21,7 +21,7 @@
                         <v-icon small color="red" @click="deleteHandler(item.idJadwal)"> mdi-delete </v-icon>
                     </template>
                     <template v-slot:[`item.nomorShift`]="{ item }">
-                        <p v-if="item.nomorShift === 1" style="color:darkred">Shift 1 08.00-15.00</p>
+                        <p v-if="item.nomorShift == 1" style="color:darkred">Shift 1 08.00-15.00</p>
                         <p v-else>Shift 2 15.00-22.00</p>
                     </template>
                 </v-data-table>

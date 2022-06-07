@@ -34,15 +34,15 @@
                         <p style="width:120px;">{{item.alamatDrv}}</p>
                     </template>
                     <template v-slot:[`item.bahasaAsing`]="{ item }">
-                        <p v-if="item.bahasaAsing === 1">Ya</p>
-                        <p v-if="item.bahasaAsing === 0">Tidak</p>
+                        <p v-if="item.bahasaAsing == 1">Ya</p>
+                        <p v-if="item.bahasaAsing == 0">Tidak</p>
                     </template>
                     <template v-slot:[`item.statusDrv`]="{ item }">
-                        <p v-if="item.statusDrv === 1" style="color:lightgreen">Tersedia</p>
+                        <p v-if="item.statusDrv == 1" style="color:lightgreen">Tersedia</p>
                         <p v-else style="color:red">Tidak Tersedia</p>
                     </template>
                     <template v-slot:[`item.statusDokumenDrv`]="{ item }">
-                        <p v-if="item.statusDokumenDrv === 1" style="color:lightgreen">Lolos</p>
+                        <p v-if="item.statusDokumenDrv == 1" style="color:lightgreen">Lolos</p>
                         <p v-else style="color:red">Tidak Lolos</p>
                     </template>
                     <template v-slot:[`item.idDriverGenerated`]="{ item }">
